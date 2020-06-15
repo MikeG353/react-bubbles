@@ -8,7 +8,7 @@ const initialColor = {
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
+const ColorList = ({ colors, updateColors, fetchColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const { id } = useParams()
@@ -37,13 +37,17 @@ const ColorList = ({ colors, updateColors }) => {
     .catch(err => {
       console.log( err.message)
     })
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
   };
 
   const deleteColor = color => {
-    // make a delete request to delete this color
+    axiosWithAuth()
+      .delete(`http://localhost:5000/api/colors/${color.id}`)
+      .then(res => {
+        fetchColors()
+      })
+      .catch(err => {
+        console.log( err.message)
+      })
   };
 
   return (
