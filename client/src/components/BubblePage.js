@@ -8,23 +8,20 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 const BubblePage = () => {
   const [colorList, setColorList] = useState([]);
   const token = localStorage.getItem("token")
-  // fetch your colors data from the server when the component mounts
-  const fetchColor = () => {
+
+  useEffect(() => {
     axiosWithAuth()
       .get('http://localhost:5000/api/colors')
       .then(res => {
-        let newColorList = res.data
+        let newColorList= res.data
         setColorList(newColorList)
-        console.log(res.data)
       })
       .catch(err => {
         console.log(err.message)
       })
-  }
-  fetchColor()
-  
-
-  // set that data to the colorList state property
+  },[])
+  // fetch your colors data from the server when the component mounts
+    // set that data to the colorList state property
 
   return (
     <>
